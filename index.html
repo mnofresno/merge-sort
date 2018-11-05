@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to add elements to the array.</p>
+
+<button onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+
+function myFunction () {
+	var i = [6,4,9,3,2,77,2,5];
+
+	var o = mergeSort(i);
+	document.getElementById("demo").innerHTML = o;
+}
+
+var mergeSort = function(input) {
+  var output = [];
+
+  if(input.length <= 1) {
+    return output = input;
+  } else {
+    var len = input.length;
+    var firstHalf = mergeSort(input.splice(0, len / 2));   
+    var secondHalf = mergeSort(input);
+    
+    var indexFirstHalf = 0;
+    var indexSecondHalf = 0;
+
+    for(var index = 0; index < len; index++) {
+      if (indexSecondHalf >= secondHalf.length || (indexFirstHalf < firstHalf.length && firstHalf[indexFirstHalf] <= secondHalf[indexSecondHalf])) {
+        output.push(firstHalf[indexFirstHalf]);
+        indexFirstHalf++;
+      } else {
+        output.push(secondHalf[indexSecondHalf]);
+        indexSecondHalf++;      
+      }
+    }
+  }
+
+  return output;
+}
+</script>
+
+</body>
+</html>
