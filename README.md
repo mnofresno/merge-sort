@@ -1,2 +1,2 @@
 # merge-sort
-Merge sort algorithm implementation un JavaScript
+Merge sort algorithm implementation in JavaScript

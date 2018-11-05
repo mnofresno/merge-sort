@@ -1,49 +1,57 @@
 <!DOCTYPE html>
 <html>
-<body>
+	<body>
 
-<p>Click the button to add elements to the array.</p>
+		<p>Click the button to sort the array with merge sort algorith.</p>
 
-<button onclick="myFunction()">Try it</button>
+		Input Array:
+		<input id="inputArray" value="6,4,9,3,2,77,2,5"/>
+		<button onclick="runMergeSort()">Try it</button>
 
-<p id="demo"></p>
+		<p id="demo"></p>
 
-<script>
+		<script>
+			function runMergeSort() {			
+				var input = document.getElementById("inputArray").value.split(',');
+				var output = mergeSort(input);
+				document.getElementById("demo").innerHTML =
+				"Result: " + output.result + "<br/>" +
+				"Size: " + output.result.length + "<br/>" +
+				"Steps: " + output.steps + "<br/>" +
+				"n log(n): " + output.result.length * Math.log(output.result.length) + "<br/>";
+			}
 
-function myFunction () {
-	var i = [6,4,9,3,2,77,2,5];
+			var mergeSort = function(input) {
+				var output = [];
+				var steps = 0;
 
-	var o = mergeSort(i);
-	document.getElementById("demo").innerHTML = o;
-}
+				if(input.length <= 1) {
+					output = input;
+				} else {
+					var len = input.length;
+					var firstHalfSorted = mergeSort(input.splice(0, len / 2));
+					var firstHalf = firstHalfSorted.result;
+					var secondHalfSorted = mergeSort(input);
+					var secondHalf = secondHalfSorted.result;
+					steps += firstHalfSorted.steps + secondHalfSorted.steps;
 
-var mergeSort = function(input) {
-  var output = [];
+					var indexFirstHalf = 0;
+					var indexSecondHalf = 0;
 
-  if(input.length <= 1) {
-    return output = input;
-  } else {
-    var len = input.length;
-    var firstHalf = mergeSort(input.splice(0, len / 2));   
-    var secondHalf = mergeSort(input);
-    
-    var indexFirstHalf = 0;
-    var indexSecondHalf = 0;
+					for(var index = 0; index < len; index++) {
+						steps++;
+						if (indexSecondHalf >= secondHalf.length || (indexFirstHalf < firstHalf.length && firstHalf[indexFirstHalf] <= secondHalf[indexSecondHalf])) {
+							output.push(firstHalf[indexFirstHalf]);
+							indexFirstHalf++;
+						} else {
+							output.push(secondHalf[indexSecondHalf]);
+							indexSecondHalf++;      
+						}
+					}
+				}
 
-    for(var index = 0; index < len; index++) {
-      if (indexSecondHalf >= secondHalf.length || (indexFirstHalf < firstHalf.length && firstHalf[indexFirstHalf] <= secondHalf[indexSecondHalf])) {
-        output.push(firstHalf[indexFirstHalf]);
-        indexFirstHalf++;
-      } else {
-        output.push(secondHalf[indexSecondHalf]);
-        indexSecondHalf++;      
-      }
-    }
-  }
-
-  return output;
-}
-</script>
-
-</body>
+				return { result: output, steps: steps };
+			}
+		</script>
+	</body>
 </html>
